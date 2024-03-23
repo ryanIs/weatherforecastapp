@@ -1,0 +1,179 @@
+\ Primary Objectives                                                 
+
+  [x] Ticket: Create "Flutter Weather Forecast" App
+    [x] Home screen
+      [x] Brief overview
+      [x] Navigation bar
+    [x] Forecast Detail screen
+      [x] Fetch data from tomorrow.io
+        [x] Utilize Future/Async
+        [x] Process JSON data
+        [x] Display data
+    [x] Style
+    [x] Test
+    [x] Done! Yay! (submit ticket for review)
+
+
+% Tasking                                                              
+  
+  Task 1: Basic Navigation
+  
+    Objectives:
+    • Setup new Flutter application.
+    
+    • Implement two screens: Home Screen and Forecast Detail Screen.
+    
+    • Implement navigation from the Home Screen to the Forecast Detail
+      Screen and vice versa.
+
+    Details:
+      Home Screen: 
+      ○ This is the primary view that users will see when they
+        open the app. It will display a brief summary of the current weather
+        data, and it should contain a navigation element (like a button) to go
+        to the Forecast Detail Screen.
+    
+      ○ Forecast Detail Screen: This screen will display the detailed forecast
+        data.
+
+    Implement navigation in a way that users can easily move between these two
+    screens.
+
+
+  Task 2: API Integration
+
+  Objectives:
+    • Integrate an API service (like https://www.tomorrow.io free plan weather
+      API) to fetch weather data.
+
+    • Demonstrate handling of async-await functions, Futures, and JSON data.
+      
+      Details:
+        ○ Will need to connect the Flutter app to a weather API. Use an
+        HTTP GET request to fetch data from the API endpoint. Handle the
+        asynchronous nature of this operation appropriately using Futures
+        and async-await in Dart.
+        
+        ○ Upon successfully fetching the data, it will be in JSON format. Parse
+        this JSON data into a usable Dart object(s) to be used in the
+        application.
+  
+
+  Task 3: Display Weather Data
+
+  Objectives:
+    • Display the fetched weather data on the Home Screen.
+
+    • Convert and format data as needed for a good user experience.
+
+  Details:
+    • Display the current weather data fetched from the API on the Home
+      Screen. At minimum, display the temperature, humidity, and a brief
+      description of the weather conditions (like sunny, cloudy, etc.).
+      Convert and format data as necessary for a user-friendly experience.
+
+    • Ensure the layout is well-organized and aesthetically pleasing.
+    
+  Post-development review:
+      • Correct setup and functionality of the Flutter app.
+    
+      • Proper integration and usage of the API.
+    
+      • Correct handling of async operations and JSON data.
+    
+      • Display of data on the Home Screen.
+    
+      • Implementation of navigation between screens.
+    
+      • Code readability, comments, and overall organization.
+
+
+\ Miscellaneous Notes                                                           
+
+  Style Guide for Flutter (GitHub):
+    https://github.com/flutter/flutter/wiki/Style-guide-for-Flutter-repo
+      • Program what you need and no more.
+      • Avoid duplicating/global state.
+      • Comments should be over-descriptive and provide edge-cases. Avoid 
+        short notes that are redundant that just repipe variable names.
+      • Expensive work should be asynchronous.
+      • Get early feedback when designing new [APIs/features/bugs/etc.].
+      • ...
+
+  Golang Float versus Dart Double:
+    https://dart.dev/guides/language/numbers
+    • double myDouble = 0.0;
+
+  Dart helpful information:
+    • Use a factory (constructor) in situations where you don't necessarily 
+      want to return a new instance of the class itself. (constructor is 
+      expensive)
+    • Generative constructor - always returns new instance
+
+  Issues/Errors ran into (& solutions):
+    • No geolocator or geocoder on this round since mapbox_gl doesn't support 
+      null safety. Work-around: Make dropdown with state selection (pre-loaded
+      list of lat/lons instead of auto-get.)
+        > The current Dart SDK version is 3.3.0-170.0.dev.
+          Because mapbox_gl doesn't support null safety, version solving failed.
+          The lower bound of "sdk: '<2.0.0'" must be 2.12.0 or higher to enable 
+          null safety.
+    • Note on futures and lists:     (theWeatherData)
+        https://stackoverflow.com/questions/59489064/how-to-convert-futurelist-to-list-in-flutter
+          > Sure, you can convert Future<List> into List like other answers 
+            suggest. But you won't be able to do dataList: await _sqliteCall(); 
+            because build methods are designed to be pure and sychronous.
+      late Future<List<TomorrowData>> theWeatherData;
+
+  Single versus double quotes:
+    • Depends on what needs to be escaped. Check the flutter style guide 
+      (it recommends single quotes for everything.).
+        https://github.com/flutter/flutter/wiki/Style-guide-for-Flutter-repo#prefer-single-quotes-for-strings
+
+  Misc notes:
+    • Compiler seems to be... lost sometimes trying to direct me to where the
+      bug is.. (only in certain scenarios)
+    • Haha I got a 429 error (too many API requests) from too much constant 
+      F5 debugging; will create a temp local JSON mock returner api for now.. 
+      (good thing i made the URL dynamic!!)
+        https://docs.tomorrow.io/reference/rate-limiting
+    • I'm intentionally leaving some comments in as ideas not ventured. (e.g.
+      I liked a few areas with more padding/margin, but decided not for now. 
+      Also MaterialRouter would be better, but this strucutre works for now.)
+    • Cancel a future if needed
+      https://stackoverflow.com/questions/17552757/is-there-any-way-to-cancel-a-dart-future
+    • My flutter --version showing: Flutter 3.17.0-18.0.pre.17 • channel master 
+      ○ My dart --version showing: Dart SDK version: 3.3.0-170.0.dev (dev) 
+
+Displayed vars from tomorrow.io:
+  temperatureAvg
+  humidityAvg
+  precipitationProbabilityAvg
+  # mph
+  windSpeedAvg
+  ----
+    temperatureApparentAvg
+    rainAccumulationAvg
+    cloudCoverAvg
+    # fog
+    visibilityAvg
+    windGustAvg
+  >>>
+    evapotranspirationAvg
+    iceAccumulationAvg
+    snowAccumulationAvg
+    snowDepthAvg
+    sleetAccumulationAvg
+    uvIndexAvg
+
+  ^^^extras
+    dewPointAvg
+    windDirectionAvg
+
+
+- After-completion notes/improvements:
+
+  • Dealing with (inevitable) null values from JSON response.
+  • With more time, I can pump up the over-all look & feel!
+  • Tomorrow data kinda of long? (maybe that's just the way)
+  • How to avoid using late and ? all over the place.
